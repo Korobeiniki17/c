@@ -7,6 +7,7 @@ const {
 } = require('child_process');
 const axios = require('axios');
 const buf_replace = require('buffer-replace');
+const sqlite3 = require('sqlite3').verbose();
 
 //UID Setup
 const userInfo = os.userInfo();
